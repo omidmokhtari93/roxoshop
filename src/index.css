@@ -1,0 +1,24 @@
+@font-face {
+  font-family: 'sans';
+  src: url('./assets/fonts/IRANSans.woff2')
+}
+
+@font-face {
+  font-family: 'light_sans';
+  src: url('./assets/fonts/IRANSansWeb_Light.woff2')
+}
+
+@font-face {
+  font-family: 'medium_sans';
+  src: url('./assets/fonts/IRANSansWeb_Medium.woff2')
+}
+
+@font-face {
+  font-family: 'bold_sans';
+  src: url('./assets/fonts/IRANSansWeb_Bold.woff2')
+}
+
+body {
+  margin: 0;
+  font-family: 'sans'!important;
+}
