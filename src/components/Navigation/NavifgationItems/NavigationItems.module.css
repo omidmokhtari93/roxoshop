@@ -1,0 +1,15 @@
+@media(max-width: 768px){
+    .menu {
+        float: left;
+        line-height: 46px;
+        width: 100%;
+        padding: 0 15px 0 10px;
+    }
+}
+@media(min-width: 769px){
+    .menu {
+        line-height: 46px;
+        direction: rtl;
+        padding-right: 0;
+    }
+}

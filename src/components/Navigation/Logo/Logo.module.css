@@ -1,0 +1,21 @@
+
+@media (min-width: 769px) {
+    .logo {
+        width: 44px;
+        border-radius: 500px;
+        margin-top: 1px;
+        float: right;
+        margin: 0 15px;
+    }
+}
+
+@media (max-width: 768px) {
+    .logo {
+        width: 44px;
+        border-radius: 500px;
+        margin-top: 1px;
+        margin: 0 15px;
+        text-align: center;
+        margin-right: 40px;
+    }
+}   

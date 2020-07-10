@@ -2,14 +2,15 @@ import React from 'react';
 
 import Wrapper from '../../hoc/Wrapper';
 import classes from './Navbar.module.css';
-import NavigationItems from './NavigationItems.js/NavigationItems';
+import NavigationItems from './NavifgationItems/NavigationItems';
+import Logo from './Logo/Logo';
 
 const Navbar = props => {
     return (
         <Wrapper>
             <header className={classes.header}>
-                <img className={classes.logo} src="https://bit.ly/2Z9IwHp" />
-                <div className="float-right">
+                <Logo />
+                <div className={classes.navigationItems}>
                     <NavigationItems />
                 </div>
                 <div className={classes.mobile}
