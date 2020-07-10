@@ -1,0 +1,19 @@
+.slider {
+    width: 20%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    background-color: rgb(243, 243, 243);
+    z-index: 999;
+    padding: 10px;
+}
+
+.closebtn {
+    float: right;
+    font-size: 15pt;
+    cursor: pointer;
+}
+.closebtn:hover{
+    color: rgb(105, 105, 105);
+}

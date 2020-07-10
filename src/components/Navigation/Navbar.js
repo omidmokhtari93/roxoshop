@@ -12,8 +12,9 @@ const Navbar = props => {
                 <div className="float-right">
                     <NavigationItems />
                 </div>
-                <div className={classes.mobile}>
-                    *
+                <div className={classes.mobile}
+                    onClick={() => props.sliderShow('open')}>
+                    ☰
                 </div>
             </header>
         </Wrapper>
