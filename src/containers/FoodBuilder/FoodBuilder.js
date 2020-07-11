@@ -66,7 +66,8 @@ class FoodBuilder extends Component {
         }
         Object.keys(disabledKey).map(key => {
             disabledKey[key] = disabledKey[key] <= 0;
-        })
+        });
+        
         return (
             <Wrapper>
                 <Modal order={this.state.order}

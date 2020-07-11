@@ -6,11 +6,13 @@ const OrderSummary = props => {
     const ingredientsSummary = Object.keys(props.ingredients)
         .map(key => {
             return props.ingredients[key] != 0
-                && (<div key={key} className="row">
-                    <div className="col-6">{props.ingredients[key]}</div>
-                    <div className="col-6">{controls.find(x => x.type == key).label}</div>
-                </div>)
-        })
+                && (
+                    <div key={key} className="row">
+                        <div className="col-6">{props.ingredients[key]}</div>
+                        <div className="col-6">{controls.find(x => x.type == key).label}</div>
+                    </div>
+                )
+        });
 
     return (
         <div className="w-100 text-center m-auto">
@@ -26,4 +28,5 @@ const OrderSummary = props => {
         </div>
     )
 }
+
 export default OrderSummary;
