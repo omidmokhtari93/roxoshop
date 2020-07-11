@@ -4,6 +4,7 @@ import Food from '../../components/Food/Food'
 import FoodControls from '../../components/Food/FoodControls/FoodControls';
 import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/OrderSummary/OrderSummary';
+import axios from '../../components/axios/axios-order';
 
 const INGREDIENT_PRICES = {
     hotDog: 7000,
@@ -21,10 +22,11 @@ class FoodBuilder extends Component {
                 salad: 0
             },
             totalPrice: 0,
-            order: false
+            order: false,
+            loading: false
         }
     }
-    
+
     handleOrder = e => {
         this.setState({ order: true })
     }
@@ -60,6 +62,21 @@ class FoodBuilder extends Component {
         this.setState({ totalPrice: newPrice, ingredients: updatedIngredients })
     }
 
+    orderPurchaseContinue = e => {
+        this.setState({ loading: true })
+        const order = {
+            ingredients: this.state.ingredients,
+            totalPrice: this.state.totalPrice,
+        }
+        axios.post('posts', order)
+            .then(response => this.setState({ loading: false }))
+            .catch(error => this.setState({ loading: false }))
+    }
+
+    orderPurchase = e => {
+        console.log(2)
+    }
+
     render() {
         const disabledKey = {
             ...this.state.ingredients
@@ -67,12 +84,16 @@ class FoodBuilder extends Component {
         Object.keys(disabledKey).map(key => {
             disabledKey[key] = disabledKey[key] <= 0;
         });
-        
+
         return (
             <Wrapper>
                 <Modal order={this.state.order}
                     closeModal={this.closeModal}>
-                    <OrderSummary ingredients={this.state.ingredients} />
+                    <OrderSummary
+                        ingredients={this.state.ingredients}
+                        purchase={this.orderPurchase}
+                        purchaseContinue={this.orderPurchaseContinue}
+                        loading={this.state.loading} />
                 </Modal>
                 <Food ingredients={this.state.ingredients} />
                 <FoodControls

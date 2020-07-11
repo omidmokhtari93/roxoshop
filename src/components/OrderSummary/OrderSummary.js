@@ -1,6 +1,7 @@
 import React from 'react';
 import controls from '../../components/Controls/Controls'
 import Button from '../UI/Button/Button';
+import Loading from '../UI/Loading/Loading';
 
 const OrderSummary = props => {
     const ingredientsSummary = Object.keys(props.ingredients)
@@ -13,7 +14,6 @@ const OrderSummary = props => {
                     </div>
                 )
         });
-
     return (
         <div className="w-100 text-center m-auto">
             <h5>اقلام سفارشی شما</h5>
@@ -21,10 +21,14 @@ const OrderSummary = props => {
             <div>
                 {ingredientsSummary}
             </div>
-            <div className="mt-3">
-                <Button classes="btn-sm btn-success float-left mr-1">پرداخت نهایی</Button>
-                <Button classes="btn-sm btn-warning float-right">ادامه فرآیند خرید</Button>
-            </div>
+            {props.loading ? <Loading show={props.loading} /> : (
+                <div className="mt-3">
+                    <Button classes="btn-sm btn-success float-left mr-1"
+                        click={props.purchase}>پرداخت نهایی</Button>
+                    <Button classes="btn-sm btn-warning float-right"
+                        click={props.purchaseContinue}>ادامه فرآیند خرید</Button>
+                </div>
+            )}
         </div>
     )
 }
