@@ -1,5 +1,4 @@
 import React from 'react';
-import Wrapper from '../../hoc/Wrapper';
 import controls from '../../components/Controls/Controls'
 import Button from '../UI/Button/Button';
 
