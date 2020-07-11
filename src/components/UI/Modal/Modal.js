@@ -8,7 +8,9 @@ const Modal = props => (
         <Backdrop show={props.order} closeModal={props.closeModal}/>
         <div className={classes.modal}
             style={{
-                display: props.order ? 'block' : 'none'
+                // display: props.order ? 'block' : 'none'
+                opacity:props.order ? '1' : '0', 
+                zIndex: props.order && '9999'
             }}>
             {props.children}
         </div>
