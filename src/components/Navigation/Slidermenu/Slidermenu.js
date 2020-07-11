@@ -11,12 +11,15 @@ const Slidermenu = props => {
             <Backdrop show={props.show}
                 closeModal={props.handleClose} />
             <div className={classes.slider}
-                style={{ display: props.show ? null : 'none' }}>
+                style={{
+                    width: props.show ? '60%' : '0',
+                    padding: props.show && '15px 15px 10px 10px'
+                }}>
                 <span
                     className={classes.closebtn}
                     onClick={props.handleClose}>✖</span>
                 <div className="mb-3"
-                style={{paddingLeft: 45}}>
+                    style={{ paddingLeft: 50 }}>
                     <Logo />
                 </div>
                 <NavigationItems />
