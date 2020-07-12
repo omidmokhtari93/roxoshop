@@ -4,18 +4,9 @@ import propTypes from 'prop-types';
 
 class FoodIngredient extends Component {
     render() {
-        switch (this.props.type) {
-            case 'bread':
-                return <div className={classes.bread}>نان</div>
-            case 'hotDog':
-                return <div className={classes.hotDog}>هات داگ</div>
-            case 'salad':
-                return <div className={classes.salad}>سالاد</div>
-            case 'cheese':
-                return <div className={classes.cheese}>پنیر</div>
-            default:
-                return null;
-        }
+        return <div className={classes.common} style={{ background: this.props.color }}>
+            {this.props.name}
+        </div>
     }
 }
 

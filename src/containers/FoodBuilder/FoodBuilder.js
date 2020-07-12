@@ -5,21 +5,21 @@ import FoodControls from '../../components/Food/FoodControls/FoodControls';
 import Modal from '../../components/UI/Modal/Modal';
 import OrderSummary from '../../components/OrderSummary/OrderSummary';
 import axios from '../../components/axios/axios-order';
+import controls from '../../components/Controls/Controls';
 
-const INGREDIENT_PRICES = {
-    hotDog: 7000,
-    cheese: 3000,
-    salad: 1000
-}
+const INGREDIENT_PRICES = {}
+const initState = {}
+controls.map(obj => {
+    INGREDIENT_PRICES[obj.type] = obj.price
+    initState[obj.type] = 0;
+})
 
 class FoodBuilder extends Component {
     constructor(props) {
         super(props);
         this.state = {
             ingredients: {
-                hotDog: 0,
-                cheese: 0,
-                salad: 0
+                ...initState
             },
             totalPrice: 0,
             order: false,

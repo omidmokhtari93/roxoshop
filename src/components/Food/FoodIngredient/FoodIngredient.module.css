@@ -3,19 +3,6 @@
     margin: 2px 0;
 }
 
-.hotDog {
-    background-color: orangered;
+.common {
     margin: 2px 0;
-}
-
-.salad {
-    background-color: green;
-    color: white;
-    margin: 2px 0;
-}
-
-.cheese {
-    background-color: yellow;
-    margin: 2px 0;
-    border: 1px solid rgb(255, 204, 76);
 }
