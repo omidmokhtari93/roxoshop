@@ -4,7 +4,7 @@ import Button from '../../../UI/Button/Button';
 
 const FoodControl = props => {
     return (
-        <div className="row pt-1">
+        <div className={'row pt-1 ' + classes.resRow}>
             <div className="col-4">
                 <Button classes='mr-1 btn btn-sm btn-success'
                     click={props.add}>افزایش</Button>
