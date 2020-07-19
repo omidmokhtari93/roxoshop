@@ -2,12 +2,17 @@ import React from 'react';
 import './App.css';
 import Layout from './components/Layout/Layout';
 import FoodBuilder from './containers/FoodBuilder/FoodBuilder';
+import { Route, Switch } from 'react-router-dom';
+import Payment from './components/Payment/Payment';
 
 function App() {
   return (
     <div className="App">
       <Layout>
-        <FoodBuilder />
+        <Switch>
+          <Route path="/payment" component={Payment} exact />
+          <Route path="/" component={FoodBuilder} />
+        </Switch>
       </Layout>
     </div>
   );

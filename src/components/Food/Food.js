@@ -17,7 +17,7 @@ const Food = props => {
     }).reduce((arr, el) => {
         return [...arr, ...el]
     }, []);
-
+    
     return (
         <div className="">
             <FoodIngredient type="bread" name="نان" color="burlywood" />

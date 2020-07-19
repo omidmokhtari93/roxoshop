@@ -27,6 +27,9 @@ class FoodBuilder extends Component {
         }
     }
 
+    componentDidMount() {
+    }
+
     handleOrder = e => {
         this.setState({ order: true })
     }
@@ -63,18 +66,23 @@ class FoodBuilder extends Component {
     }
 
     orderPurchaseContinue = e => {
+
+    }
+
+    orderPurchase = e => {
         this.setState({ loading: true })
         const order = {
             ingredients: this.state.ingredients,
             totalPrice: this.state.totalPrice,
         }
         axios.post('posts', order)
-            .then(response => this.setState({ loading: false }))
-            .catch(error => this.setState({ loading: false }))
-    }
-
-    orderPurchase = e => {
-        console.log(2)
+            .then(response => {
+                this.setState({ loading: false })
+                this.props.history.push('/payment')
+            })
+            .catch(error => {
+                this.setState({ loading: false })
+            })
     }
 
     render() {
