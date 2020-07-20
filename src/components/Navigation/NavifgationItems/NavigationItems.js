@@ -5,8 +5,8 @@ import NavigationItem from './NavigationItem/NavigationItem';
 const NavigationItems = props => {
     return (
         <ul className={classes.menu}>
-            <NavigationItem link="/" active>صفحه اصلی</NavigationItem>
-            <NavigationItem link="/">پرداخت</NavigationItem>
+            <NavigationItem link="/" exact>ثبت سفارش</NavigationItem>
+            <NavigationItem link="/payment">پرداخت</NavigationItem>
         </ul>
     )
 }

@@ -78,7 +78,17 @@ class FoodBuilder extends Component {
         axios.post('posts', order)
             .then(response => {
                 this.setState({ loading: false })
-                this.props.history.push('/payment')
+                const queryParams = [];
+                Object.keys(this.state.ingredients).map(keys => {
+                    this.state.ingredients[keys] !== 0 && queryParams.push(
+                        encodeURIComponent(keys) + '='
+                        + encodeURIComponent(this.state.ingredients[keys]))
+                });
+                queryParams.push('price=' + this.state.totalPrice)
+                this.props.history.push({
+                    pathname: '/payment',
+                    search: '?' + queryParams.join('&')
+                })
             })
             .catch(error => {
                 this.setState({ loading: false })

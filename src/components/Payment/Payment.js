@@ -1,42 +1,50 @@
 import React, { Component } from 'react';
-import Wrapper from '../../hoc/Wrapper';
-import Food from '../Food/Food';
-import controls from '../Controls/Controls'
-import Button from '../UI/Button/Button';
-const stateElements = {};
-controls.map(x => {
-    stateElements[x.type] = 0
-})
+import { Route } from 'react-router-dom';
+import ContactData from './ContactData/ContactData';
+import PaymentSummary from './PaymentSummary/PaymentSummary';
 
 class Payment extends Component {
     state = {
-        loading: false
-        , ...stateElements
+        ingredients: {},
+        totalPrice: 0
+    }
+
+    componentDidMount() {
+        const queryParams = new URLSearchParams(this.props.location.search)
+        const ing = {}
+        queryParams.forEach((value, item) => {
+            item == 'price'
+                ? this.setState({ totalPrice: value })
+                : ing[item] = +value;
+        })
+        this.setState({ ingredients: ing })
     }
 
     handlePayment = e => {
-        this.state.loading = true;
+        this.props.history.replace('/payment/contact-data');
+        setTimeout(() => {
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' })
+        }, 100);
+    }
+
+    cancelPayment = e => {
+        this.props.history.goBack();
     }
 
     render() {
-        this.state = {
-            salad: 1,
-            soas: 1,
-            cheese: 2
-        }
         return (
-            <Wrapper>
-                <div className="card">
-                    <div className="card-header text-center">سفارش شما به شرح زیر است</div>
-                    <div className="card-body">
-                        <Food ingredients={this.state} />
-                    </div>
-                    <div className="card-footer">
-                        <Button click={this.handlePayment} classes="btn btn-success float-left">پرداخت</Button>
-                        <Button click={() => this.props.history.goBack()} classes="btn btn-primary float-right">بازگشت</Button>
-                    </div>
-                </div>
-            </Wrapper>
+            <div>
+                <PaymentSummary
+                    ingredients={this.state.ingredients}
+                    handlePayment={this.handlePayment}
+                    cancelPayment={this.cancelPayment} />
+                <Route
+                    render={(props) => (<ContactData
+                        ingredients={this.state.ingredients}
+                        price={this.state.totalPrice}
+                        {...props} />)}
+                    path={this.props.match.path + '/contact-data'} />
+            </div>
         )
     }
 }

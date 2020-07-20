@@ -10,8 +10,8 @@ function App() {
     <div className="App">
       <Layout>
         <Switch>
-          <Route path="/payment" component={Payment} exact />
-          <Route path="/" component={FoodBuilder} />
+          <Route path="/payment" component={Payment}/>
+          <Route path="/" component={FoodBuilder} exact/>
         </Switch>
       </Layout>
     </div>
