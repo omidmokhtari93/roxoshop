@@ -4,6 +4,7 @@ import Button from '../../UI/Button/Button';
 import Loading from '../../UI/Loading/Loading';
 import http from '../../axios/axios-order';
 import Input from '../../UI/Input/Input';
+import { element, object } from 'prop-types';
 
 class ContactData extends Component {
     state = {
@@ -12,13 +13,27 @@ class ContactData extends Component {
                 type: 'text',
                 label: 'نام و نام خانوادگی',
                 inputType: 'input',
-                value: ''
+                value: '',
+                validation: {
+                    required: true,
+                    minLength: 5,
+                    maxLength: 30
+                },
+                valid: false,
+                touched: false
             },
             email: {
                 type: 'email',
                 label: 'ایمیل',
                 inputType: 'input',
-                value: ''
+                value: '',
+                validation: {
+                    required: true,
+                    minLength: 5,
+                    maxLength: 50
+                },
+                valid: false,
+                touched: false
             },
             deliveryMethod: {
                 type: null,
@@ -35,7 +50,14 @@ class ContactData extends Component {
                 label: 'آدرس محل سکونت',
                 inputType: 'textarea',
                 rows: 3,
-                value: ''
+                value: '',
+                validation: {
+                    required: true,
+                    minLength: 5,
+                    maxLength: 100
+                },
+                valid: false,
+                touched: false
             }
         },
         loading: false
@@ -49,22 +71,31 @@ class ContactData extends Component {
         }
         http.post('posts', formData).then(x => {
             this.setState({ loading: false })
-            console.log(x.data)
             this.props.history.replace('/')
         }).catch(x => {
             this.setState({ loading: false })
         })
     }
 
-    handleContatcInputs = e => {
+    checkValidation = (value, rules) => {
+        return (rules != undefined) && (rules.required && value != '')
+            && (value.length <= rules.maxLength)
+            && (value.length >= rules.minLength);
+    }
+
+    handleContactInputs = e => {
         const elementName = e.target.name;
-        const elementValue = e.target.value
+        const elementValue = e.target.value;
+        const rules = this.state.inputs[elementName].validation;
+        const validationStatus = this.checkValidation(elementValue, rules);
         this.setState(prevState => ({
             inputs: {
                 ...prevState.inputs,
                 [elementName]: {
                     ...prevState.inputs[elementName],
-                    value: elementValue
+                    value: elementValue,
+                    valid: validationStatus,
+                    ...(rules && { touched: true })
                 }
             }
         }))
@@ -87,7 +118,9 @@ class ContactData extends Component {
                     label={inputs[key].label}
                     value={inputs[key].value}
                     rows={rows}
-                    onChange={this.handleContatcInputs}
+                    onChange={this.handleContactInputs}
+                    touched={inputs[key].touched}
+                    valid={inputs[key].valid}
                     options={options}
                 />
             )
@@ -104,7 +137,10 @@ class ContactData extends Component {
                         {this.state.loading
                             ? <Loading show={this.state.loading} />
                             : <Button click={this.orderHandler}
-                                classes="btn btn-sm btn-success float-left">پرداخت نهایی</Button>
+                                disabled={false}
+                                classes="btn btn-sm btn-success float-left">
+                                پرداخت نهایی
+                            </Button>
                         }
                     </div>
                 </form>

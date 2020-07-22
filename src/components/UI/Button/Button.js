@@ -5,7 +5,8 @@ const Button = props => {
     return (
         <button className={props.classes + ' ' + classes.responsive}
             onClick={props.click}
-            disabled={props.disabled}>
+            disabled={props.disabled}
+            style={props.disabled ? {cursor: 'no-drop'} : null}>
             {props.children}
         </button>
     )

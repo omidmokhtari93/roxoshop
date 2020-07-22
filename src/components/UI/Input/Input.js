@@ -2,6 +2,12 @@ import React from 'react';
 import clasess from './Input.module.css';
 
 const Input = props => {
+    let validationClasses = ['form-control'], valid = true;
+    if (props.touched && !props.valid) {
+        validationClasses.push(clasess.invalid)
+        valid = false
+    }
+
     const inputElement = e => {
         let config = {
             type: props.type,
@@ -11,7 +17,7 @@ const Input = props => {
         }
         switch (props.inputType) {
             case 'input':
-                return <input className="form-control" {...config} defaultValue={props.value}/>
+                return <input className={validationClasses.join(' ')} {...config} defaultValue={props.value} />
             case 'select':
                 return <select className="form-control" {...config} defaultValue={props.value}>
                     {props.options.map((opt, idx) =>
@@ -21,15 +27,18 @@ const Input = props => {
                     )}
                 </select>
             case 'textarea':
-                return <textarea style={{ resize: 'none' }} className="form-control" {...config} defaultValue={props.value}></textarea>
+                return <textarea style={{ resize: 'none' }} className={validationClasses.join(' ')} {...config} defaultValue={props.value}></textarea>
             default:
-                return <input className="form-control" {...config} defaultValue={props.value}/>
+                return <input className={validationClasses.join(' ')} {...config} defaultValue={props.value} />
         }
     }
 
     return (
         <div className="form-group">
-            <label className={clasess.labelText}>{props.label}</label>
+            <div className={clasess.labelText}>
+                <span className="float-right">{props.label}</span>
+                {!valid && <span className="float-left text-danger">** فیلد را تکمیل کنید **</span>}
+            </div>
             {inputElement()}
         </div>
     )
