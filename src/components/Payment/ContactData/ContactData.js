@@ -28,8 +28,7 @@ class ContactData extends Component {
                     { value: 'pishtaz', label: 'ارسال با پست پیشتاز' },
                     { value: 'tipax', label: 'ارسال با تیپاکس' }
                 ],
-                rows: 3,
-                value: ''
+                value: 'pishtaz'
             },
             address: {
                 type: 'text',
@@ -44,33 +43,39 @@ class ContactData extends Component {
     orderHandler = e => {
         e.preventDefault();
         this.setState({ loading: true })
-        const order = {
-            ingredients: this.props.ingredients,
-            price: this.props.totalPrice,
-            name: '',
-            family: ''
+        const formData = {}
+        for (let key in this.state.inputs) {
+            formData[key] = this.state.inputs[key].value
         }
-        http.post('posts', order).then(x => {
+        http.post('posts', formData).then(x => {
             this.setState({ loading: false })
+            console.log(x.data)
             this.props.history.replace('/')
         }).catch(x => {
             this.setState({ loading: false })
         })
     }
 
-    handleInputs = e => {
-        console.log(e.target.name)
-        let inp = this.state.inputs[e.target.name].value;
-        this.setState({
-
-        })
+    handleContatcInputs = e => {
+        const elementName = e.target.name;
+        const elementValue = e.target.value
+        this.setState(prevState => ({
+            inputs: {
+                ...prevState.inputs,
+                [elementName]: {
+                    ...prevState.inputs[elementName],
+                    value: elementValue
+                }
+            }
+        }))
     }
 
     render() {
         let inputsElements = [];
         const inputs = { ...this.state.inputs }
         Object.keys(inputs).map((key, idx) => {
-            let rows = inputs[key].inputType == 'textarea' ? 3 : null;
+            let rows = inputs[key].inputType == 'textarea'
+                ? inputs[key].rows : null;
             let options = inputs[key].inputType == 'select'
                 ? inputs[key].options : null
             inputsElements.push(
@@ -82,7 +87,7 @@ class ContactData extends Component {
                     label={inputs[key].label}
                     value={inputs[key].value}
                     rows={rows}
-                    onChange={this.handleInputs}
+                    onChange={this.handleContatcInputs}
                     options={options}
                 />
             )
@@ -90,7 +95,7 @@ class ContactData extends Component {
         return (
             <Wrapper>
                 <hr />
-                <form className="card">
+                <form className="card" onSubmit={this.orderHandler}>
                     <div className="card-header">اطلاعات خود را برای ثبت سفارش وارد کنید</div>
                     <div className="card-body text-right" style={{ direction: 'rtl' }}>
                         {inputsElements}
