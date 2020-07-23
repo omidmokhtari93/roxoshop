@@ -15,9 +15,7 @@ class ContactData extends Component {
                 inputType: 'input',
                 value: '',
                 validation: {
-                    required: true,
-                    minLength: 5,
-                    maxLength: 30
+                    required: true
                 },
                 valid: false,
                 touched: false
@@ -43,7 +41,9 @@ class ContactData extends Component {
                     { value: 'pishtaz', label: 'ارسال با پست پیشتاز' },
                     { value: 'tipax', label: 'ارسال با تیپاکس' }
                 ],
-                value: 'pishtaz'
+                value: '',
+                valid: true,
+                validation: {}
             },
             address: {
                 type: 'text',
@@ -52,15 +52,14 @@ class ContactData extends Component {
                 rows: 3,
                 value: '',
                 validation: {
-                    required: true,
-                    minLength: 5,
-                    maxLength: 100
+                    required: true
                 },
                 valid: false,
                 touched: false
             }
         },
-        loading: false
+        loading: false,
+        formIsValid: false
     }
     orderHandler = e => {
         e.preventDefault();
@@ -78,16 +77,32 @@ class ContactData extends Component {
     }
 
     checkValidation = (value, rules) => {
-        return (rules != undefined) && (rules.required && value != '')
-            && (value.length <= rules.maxLength)
-            && (value.length >= rules.minLength);
+        console.log(value, rules.required)
+
+        ///// DEEP PROBLEM IN VALIDATION /////// :(
+
+        // let validate = true;
+        // if (!rules.required) {
+        //     validate = true
+        // }
+        // if (value === '' && rules.required) {
+        //     validate = false
+        // }
+        // if (condition) {
+
+        // }
     }
 
     handleContactInputs = e => {
         const elementName = e.target.name;
         const elementValue = e.target.value;
-        const rules = this.state.inputs[elementName].validation;
+        const inputs = { ...this.state.inputs }
+        const rules = inputs[elementName].validation;
         const validationStatus = this.checkValidation(elementValue, rules);
+        let formIsValid = true;
+        for (let key in inputs) {
+            formIsValid = inputs[key].valid && formIsValid;
+        }
         this.setState(prevState => ({
             inputs: {
                 ...prevState.inputs,
@@ -95,36 +110,33 @@ class ContactData extends Component {
                     ...prevState.inputs[elementName],
                     value: elementValue,
                     valid: validationStatus,
-                    ...(rules && { touched: true })
+                    ...(rules.required && { touched: true })
                 }
-            }
+            },
+            formIsValid: formIsValid
         }))
     }
 
     render() {
         let inputsElements = [];
         const inputs = { ...this.state.inputs }
-        Object.keys(inputs).map((key, idx) => {
-            let rows = inputs[key].inputType == 'textarea'
-                ? inputs[key].rows : null;
-            let options = inputs[key].inputType == 'select'
-                ? inputs[key].options : null
+        for (let key in inputs) {
             inputsElements.push(
                 <Input
-                    key={idx}
+                    key={key}
                     inputType={inputs[key].inputType}
                     type={inputs[key].type}
                     name={key}
                     label={inputs[key].label}
                     value={inputs[key].value}
-                    rows={rows}
+                    rows={inputs[key].rows}
                     onChange={this.handleContactInputs}
                     touched={inputs[key].touched}
                     valid={inputs[key].valid}
-                    options={options}
+                    options={inputs[key].options}
                 />
             )
-        })
+        }
         return (
             <Wrapper>
                 <hr />
@@ -137,8 +149,8 @@ class ContactData extends Component {
                         {this.state.loading
                             ? <Loading show={this.state.loading} />
                             : <Button click={this.orderHandler}
-                                disabled={false}
-                                classes="btn btn-sm btn-success float-left">
+                                classes="btn btn-sm btn-success float-left"
+                                disabled={!this.state.formIsValid}>
                                 پرداخت نهایی
                             </Button>
                         }
