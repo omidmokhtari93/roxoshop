@@ -21,7 +21,7 @@ const Input = props => {
 
     switch (props.inputType) {
         case 'input':
-            element = <input className={validationClasses.join(' ')} {...config} defaultValue={props.value} />
+            element = <input className={validationClasses.join(' ')} {...config} value={props.value} />
             break;
         case 'select':
             element = <select className="form-control" {...config} >
@@ -29,10 +29,10 @@ const Input = props => {
             </select>
             break;
         case 'textarea':
-            element = <textarea style={{ resize: 'none' }} className={validationClasses.join(' ')} {...config} defaultValue={props.value}></textarea>
+            element = <textarea style={{ resize: 'none' }} className={validationClasses.join(' ')} {...config} value={props.value}></textarea>
             break;
         default:
-            element = <input className={validationClasses.join(' ')} {...config} defaultValue={props.value} />
+            element = <input className={validationClasses.join(' ')} {...config} value={props.value} />
             break;
     }
     return (

@@ -58,8 +58,7 @@ class ContactData extends Component {
                 touched: false
             }
         },
-        loading: false,
-        formIsValid: false
+        loading: false
     }
     orderHandler = e => {
         e.preventDefault();
@@ -77,20 +76,23 @@ class ContactData extends Component {
     }
 
     checkValidation = (value, rules) => {
-        console.log(value, rules.required)
+        return (value !== '' && rules.required && !rules.minLength)
+            || (value !== '' && rules.required
+                && rules.minLength
+                && value.length > rules.minLength
+                && value.length < rules.maxLength)
+            || (value !== '' && !rules.required)
+    }
 
-        ///// DEEP PROBLEM IN VALIDATION /////// :(
-
-        // let validate = true;
-        // if (!rules.required) {
-        //     validate = true
-        // }
-        // if (value === '' && rules.required) {
-        //     validate = false
-        // }
-        // if (condition) {
-
-        // }
+    checkInvalidInputs = () => {
+        const inputs = { ...this.state.inputs };
+        let valid = true;
+        for (let key in inputs) {
+            if ((inputs[key].valid == false)) {
+                valid = false;
+            }
+        }
+        return valid;
     }
 
     handleContactInputs = e => {
@@ -99,10 +101,6 @@ class ContactData extends Component {
         const inputs = { ...this.state.inputs }
         const rules = inputs[elementName].validation;
         const validationStatus = this.checkValidation(elementValue, rules);
-        let formIsValid = true;
-        for (let key in inputs) {
-            formIsValid = inputs[key].valid && formIsValid;
-        }
         this.setState(prevState => ({
             inputs: {
                 ...prevState.inputs,
@@ -112,12 +110,12 @@ class ContactData extends Component {
                     valid: validationStatus,
                     ...(rules.required && { touched: true })
                 }
-            },
-            formIsValid: formIsValid
+            }
         }))
     }
 
     render() {
+        let formIsValid = this.checkInvalidInputs();
         let inputsElements = [];
         const inputs = { ...this.state.inputs }
         for (let key in inputs) {
@@ -150,7 +148,7 @@ class ContactData extends Component {
                             ? <Loading show={this.state.loading} />
                             : <Button click={this.orderHandler}
                                 classes="btn btn-sm btn-success float-left"
-                                disabled={!this.state.formIsValid}>
+                                disabled={!formIsValid}>
                                 پرداخت نهایی
                             </Button>
                         }
